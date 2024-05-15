@@ -4,7 +4,7 @@ import {useRoute, useRouter} from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { Cake } from 'lucide-vue-next';
 
-import { Dialog, DialogClose, DialogTitle, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogTitle, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { RouterPaths } from '@/router';
 import { useCartStore } from '@/pinia/cartStore.ts';

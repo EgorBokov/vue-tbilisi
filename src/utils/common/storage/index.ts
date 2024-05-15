@@ -3,5 +3,5 @@ export const updateLocalStorage = (key: string, newValue: string) => {
 };
 
 export const getFromLocalStorage = (key: string) => {
-    return localStorage.getItem(key);
+    return localStorage.getItem(key) || '';
 };

@@ -44,7 +44,3 @@ const totalCartAmountTitle = totalCartAmount.value > 99 ? '99+' : totalCartAmoun
     </div>
   </header>
 </template>
-
-<style scoped lang="scss">
-
-</style>

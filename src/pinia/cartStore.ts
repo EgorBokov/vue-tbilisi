@@ -5,7 +5,8 @@ import { CART_STORAGE } from '@/utils/common/constants.ts';
 import {getFromLocalStorage, updateLocalStorage} from '@/utils/common/storage';
 
 export const useCartStore = defineStore('cart', () => {
-    const cart = reactive<Array<ProductType>>(JSON.parse(getFromLocalStorage(CART_STORAGE)) || []);
+    const jsonParsedData = getFromLocalStorage(CART_STORAGE) || '[]';
+    const cart = reactive<Array<ProductType>>(JSON.parse(jsonParsedData));
 
     const totalCartAmount = computed(() => {
         return cart.length;

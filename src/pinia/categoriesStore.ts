@@ -8,7 +8,7 @@ export const useCategoriesStore = defineStore('categories', () => {
     const isCategoriesEmpty = computed(() => categories.length <= 0);
 
     const addCategories = (_categories: Array<Category>) => {
-        categories.push(..._categories);
+        categories.splice(0, categories.length, ..._categories);
     };
 
     const clearCategories = () => {

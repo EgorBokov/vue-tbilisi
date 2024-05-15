@@ -2,8 +2,16 @@
 import { storeToRefs } from 'pinia';
 import { useCategoriesStore } from '@/pinia/categoriesStore.ts';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import {useRouter} from 'vue-router';
+import {RouterPaths} from '@/router';
 
 const { categories, isCategoriesEmpty } = storeToRefs(useCategoriesStore());
+const router = useRouter();
+
+const redirectToExactCategory = (id: number, title: string) => {
+  router.push(`${RouterPaths.Categories}/${id}?categoryTitle=${title}`);
+};
+
 </script>
 
 <template>
@@ -14,6 +22,7 @@ const { categories, isCategoriesEmpty } = storeToRefs(useCategoriesStore());
             class="category"
             v-for="item in categories"
             :key="item.id"
+            @click="redirectToExactCategory(item.id, item.name)"
         >
           <span>
             {{ item.name }}

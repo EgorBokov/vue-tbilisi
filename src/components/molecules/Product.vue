@@ -3,24 +3,33 @@ import { ProductType } from '@/utils/types/products';
 import { Banknote } from 'lucide-vue-next';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import {useRouter} from 'vue-router';
-import {RouterPaths} from '@/router';
 
 type IProductProps = {
   product: ProductType;
 };
 
 const { product } = defineProps<IProductProps>();
-
-const router = useRouter();
+const emits = defineEmits<{
+  redirectToProduct: [id: number],
+  addToCart: [],
+}>();
 
 const handleRouteToProductPage = () => {
-  router.push(`${RouterPaths.ProductPage}/${product.id}`);
+  emits('redirectToProduct', product.id);
 };
+
+const handleAddToCart = (event: Event) => {
+  event.stopPropagation();
+  emits('addToCart');
+};
+
 </script>
 
 <template>
-  <Card class="w-[380px] flex flex-col justify-between">
+  <Card
+      class="w-[380px] flex flex-col justify-between cursor-pointer"
+      @click="handleRouteToProductPage"
+  >
     <div>
       <CardHeader class="text-slate-500">
         <CardTitle>
@@ -39,7 +48,7 @@ const handleRouteToProductPage = () => {
     </div>
     <CardFooter>
       <Button
-          @click="handleRouteToProductPage"
+          @click="handleAddToCart"
           class="w-full flex items-center gap-2.5"
       >
         <Banknote />

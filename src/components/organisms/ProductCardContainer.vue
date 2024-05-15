@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import type { ProductType } from '@/utils/types/products';
 import { Banknote } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/pinia/cartStore.ts';
-import {storeToRefs} from 'pinia';
-import { ref } from 'vue';
 
 const cartStore = useCartStore();
 const { addToCart } = cartStore;
@@ -36,7 +36,3 @@ const handleOnBuyAttempt = () => {
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-
-</style>

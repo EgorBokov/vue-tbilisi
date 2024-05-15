@@ -5,10 +5,9 @@ import Header from '@/components/molecules/Header.vue';
 <template>
   <div>
     <Header />
-    <main >
+    <main class="px-[10px]">
       <slot />
     </main>
-
   </div>
 </template>
 

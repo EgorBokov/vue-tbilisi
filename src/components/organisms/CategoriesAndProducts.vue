@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import {onMounted, ref} from 'vue';
 import { APIStoreInstance } from '@/utils/http/requetsInstance.ts';
 
 import { useCategoriesStore } from '@/pinia/categoriesStore.ts';
 import CategoriesContainer from '@/components/organisms/CategoriesContainer.vue';
 import ProductsContainer from '@/components/organisms/ProductsContainer.vue';
-import {useProductsStore} from '@/pinia/productsStore.ts';
+import { useProductsStore } from '@/pinia/productsStore.ts';
+import { Loader } from 'lucide-vue-next';
+
+const isLoading = ref(false);
 
 const categoriesStore = useCategoriesStore();
 const productsStore = useProductsStore();
@@ -14,6 +17,8 @@ const { addProducts } = productsStore;
 
 const handleGetCategories = async () => {
   try {
+    isLoading.value = true;
+
     const response = await APIStoreInstance.send('/categories', 'get');
     const productsResponse = await APIStoreInstance.send('/products', 'get');
 
@@ -27,6 +32,8 @@ const handleGetCategories = async () => {
 
   } catch(error) {
     console.log({ error });
+  } finally {
+    isLoading.value = false;
   }
 };
 
@@ -37,8 +44,11 @@ onMounted(async () => {
 
 <template>
   <div class="flex flex-col gap-y-10">
-    <CategoriesContainer />
-    <ProductsContainer />
+    <template v-if="!isLoading">
+      <CategoriesContainer />
+      <ProductsContainer />
+    </template>
+    <Loader v-else class="animate-spin mx-auto" />
   </div>
 </template>
 

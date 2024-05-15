@@ -1,27 +1,39 @@
-import { reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { defineStore } from 'pinia';
 import type { ProductType } from '@/utils/types/products';
-
-type PartialProductType = Partial<ProductType>;
+import { CART_STORAGE } from '@/utils/common/constants.ts';
+import {getFromLocalStorage, updateLocalStorage} from '@/utils/common/storage';
 
 export const useCartStore = defineStore('cart', () => {
-    const cart = reactive({
-        value: new Map<ProductType['id'], Partial<ProductType>[]>(),
+    const cart = reactive<Array<ProductType>>(JSON.parse(getFromLocalStorage(CART_STORAGE)) || []);
+
+    const totalCartAmount = computed(() => {
+        return cart.length;
     });
 
     const addToCart = (product: ProductType) => {
-        const isProductAlreadyIncluded = cart.value.has(product.id);
+        cart.push(product);
 
-        if (isProductAlreadyIncluded) {
-            cart.value.get(product.id)!.push(product);
-            return;
-        }
+        updateLocalStorage(CART_STORAGE, JSON.stringify(cart));
+    };
 
-        cart.value.set(product.id, [product]);
-    }
+    const removeFromCart = (productId: number) => {
+        const productIdInCart = cart.findIndex((element) => element.id === productId);
+
+        cart.splice(productIdInCart, 1);
+        updateLocalStorage(CART_STORAGE, JSON.stringify(cart));
+    };
+
+    const clearCart = () => {
+        cart.splice(0, cart.length);
+        localStorage.removeItem(CART_STORAGE);
+    };
 
     return {
         cart,
-        addToCart
+        totalCartAmount,
+        addToCart,
+        removeFromCart,
+        clearCart,
     };
 });

@@ -6,7 +6,7 @@ export const useProductsStore = defineStore('products', () => {
     const products = reactive<ProductType[]>([]);
 
     const addProducts = (_products: ProductType[]) => {
-        products.push(..._products);
+        products.splice(0, products.length, ..._products);
     };
 
     const clearProducts = () => {
